@@ -89,7 +89,7 @@
     (if-not new-keycode
       (do (timbre/debug "(" keycode ") not remapped.")
           (send-key device 1))
-      (do (timbre/info "(" keycode ") remapped with (" new-keycode ")")
+      (do (timbre/debug "(" keycode ") remapped with (" new-keycode ")")
           (if (vector? new-keycode)
             (doseq [code new-keycode]
               (remap-keycode code)
