@@ -141,6 +141,4 @@
         (System/exit 1))
 
       (remap-send! device)
-      (recur (wait-and-receive)))
-
-    (destroy-context)))
+      (recur (wait-and-receive)))))
