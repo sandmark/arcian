@@ -133,7 +133,7 @@
 
     (allocate-stroke-buffer)
 
-    (println "Begin remapping...")
+    (timbre/info "Begin remapping.")
     (loop [[device received] (wait-and-receive)]
       (when (zero? received)
         (println "Failed to receive key stroke, quitting.")
