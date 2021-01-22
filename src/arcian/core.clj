@@ -119,7 +119,7 @@
                0))))]
 
     (when-not (create-context)
-      (println "Failed to allocate Interception context.")
+      (timbre/fatal "Failed to allocate Interception context.")
       (System/exit 1))
 
     (set-filter razer?
