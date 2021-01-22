@@ -136,7 +136,7 @@
     (timbre/info "Begin remapping.")
     (loop [[device received] (wait-and-receive)]
       (when (zero? received)
-        (println "Failed to receive key stroke, quitting.")
+        (timbre/fatal "Failed to receive key stroke, quitting.")
         (destroy-context)
         (System/exit 1))
 
