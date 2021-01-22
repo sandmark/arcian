@@ -111,10 +111,11 @@
          (fn [device]
            (let [id     (get-hardware-id device)
                  target (:core/device-id @settings)]
-             (println (str id " == " target ": " (= id target)))
+             (timbre/debug "Filtering device: " id)
              (if (and (= (i/interception_is_keyboard device) 1)
                       (= id target))
-               1
+               (do (swap! system update :razer-found? (constantly true))
+                   1)
                0))))]
 
     (when-not (create-context)
@@ -126,6 +127,9 @@
                 i/INTERCEPTION_FILTER_KEY_UP
                 i/INTERCEPTION_KEY_E0
                 i/INTERCEPTION_KEY_E1)
+
+    (when-not (:razer-found? @system)
+      (timbre/fatal "Razer Tartarus V2 device not found: " (:core/device-id @settings)))
 
     (allocate-stroke-buffer)
 
