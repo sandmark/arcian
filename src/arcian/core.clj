@@ -1,21 +1,34 @@
 (ns arcian.core
   (:gen-class)
   (:require [clj-native.callbacks :as cb]
+            [clj-native.direct :as n]
             [clj-native.structs :as st]
             [clojure.java.io :as io]
             [native.interception :as i]
             [native.kernel32 :as k32]
-            [clj-native.direct :as n])
+            [taoensso.timbre :as timbre]
+            [taoensso.timbre.appenders.core :as appenders])
   (:import [com.sun.jna Memory Structure]))
 
 (defonce system (atom nil))
 (defonce settings (atom nil))
 
+(def logfile "arcian.log")
+(def settings-file "settings.edn")
+
+(timbre/merge-config!
+ {:output-fn (partial timbre/default-output-fn {:stacktrace-fonts {}})
+  :appenders {:spit (appenders/spit-appender {:fname logfile})}})
+
 (defn read-config []
-  (-> (or (io/resource "settings.edn")
-          (io/as-file "settings.edn"))
-      slurp
-      read-string))
+  (try
+    (-> (or (io/resource settings-file)
+            (io/as-file settings-file))
+        slurp
+        read-string)
+    (catch java.io.FileNotFoundException _
+      (timbre/fatal "Settings file not found: " settings-file)
+      nil)))
 
 (defn destroy-context []
   (when-let [context (:context @system)]
@@ -88,7 +101,9 @@
   (n/loadlib k32/kernel32)
   (n/loadlib i/interception)
   (k32/raise-process-priority)
-  (reset! settings (read-config))
+  (if-let [m (read-config)]
+    (swap! settings (constantly m))
+    (System/exit 1))
 
   (let [razer?
         (cb/callback
