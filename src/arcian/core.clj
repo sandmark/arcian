@@ -18,7 +18,8 @@
 
 (timbre/merge-config!
  {:output-fn (partial timbre/default-output-fn {:stacktrace-fonts {}})
-  :appenders {:spit (appenders/spit-appender {:fname logfile})}})
+  :appenders {:spit    (appenders/spit-appender {:fname logfile})
+              :println {:min-level :info}}})
 
 (defn read-config []
   (try
