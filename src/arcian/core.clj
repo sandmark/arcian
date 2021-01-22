@@ -98,9 +98,19 @@
                 (send-key device 1)))))))
 
 (defn -main [& args]
-  (n/loadlib k32/kernel32)
-  (n/loadlib i/interception)
-  (k32/raise-process-priority)
+  (try
+    (n/loadlib k32/kernel32)
+    (k32/raise-process-priority)
+    (catch java.lang.UnsatisfiedLinkError _
+      (timbre/fatal "Kernel32.dll cannot be loaded. Not windows maybe?")
+      (System/exit 1)))
+
+  (try
+    (n/loadlib i/interception)
+    (catch java.lang.UnsatisfiedLinkError _
+      (timbre/fatal "Interception.dll cannot be loaded.")
+      (System/exit 1)))
+
   (if-let [m (read-config)]
     (swap! settings (constantly m))
     (System/exit 1))
