@@ -129,7 +129,7 @@
                 i/INTERCEPTION_KEY_E1)
 
     (when-not (:razer-found? @system)
-      (timbre/fatal "Razer Tartarus V2 device not found: " (:core/device-id @settings)))
+      (timbre/warn "Razer Tartarus V2 device not found: " (:core/device-id @settings)))
 
     (allocate-stroke-buffer)
 
