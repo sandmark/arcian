@@ -87,9 +87,9 @@
   (let [keycode     (.code (:stroke @system))
         new-keycode (get-in @settings [:core/remap-keys keycode])]
     (if-not new-keycode
-      (do (println "Key " keycode " not remapped.")
+      (do (timbre/debug "(" keycode ") not remapped.")
           (send-key device 1))
-      (do (println (str "Key " keycode " -> " new-keycode))
+      (do (timbre/info "(" keycode ") remapped with (" new-keycode ")")
           (if (vector? new-keycode)
             (doseq [code new-keycode]
               (remap-keycode code)
