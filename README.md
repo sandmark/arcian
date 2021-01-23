@@ -11,7 +11,7 @@ Download from [releases](https://github.com/sandmark/arcian/releases).
 Simply double-click `arcian.exe`.
 
 Make sure that the .exe file, `interception.dll`, and `settings.edn` are placed in the same directory.
-An example `settings.edn` can be found [here](https://github.com/sandmark/arcian/example_settings.edn).
+An example `settings.edn` can be found [here](https://github.com/sandmark/arcian/blob/master/example_settings.edn).
 
 ## License
 
