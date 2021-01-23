@@ -8,10 +8,9 @@ Download from [releases](https://github.com/sandmark/arcian/releases).
 
 ## Usage
 
-```shell
-$ java -jar arcian-0.0.1-standalone.jar
-```
-Make sure that the jar file, `interception.dll`, and `settings.edn` are placed in the same directory.
+Simply double-click `arcian.exe`.
+
+Make sure that the .exe file, `interception.dll`, and `settings.edn` are placed in the same directory.
 An example `settings.edn` can be found [here](https://github.com/sandmark/arcian/example_settings.edn).
 
 ## License
